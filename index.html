@@ -21,7 +21,19 @@
         valor:40.00
         }
 
-        let cardapio = [pizza1, pizza2];
+        let pizza3 = {
+        nome: "Parmegiana",
+        ingredientes: ["Calabresa", "Cebola", "Bacon", "Tomates"],
+        valor:40.00
+        };
+
+        let pizza4 = {
+          nome: "Metropolitana",
+            ingredientes: ["muçarela", "Frango", "Marguerita"],
+            valor: 35.00
+        };
+
+        let cardapio = [pizza1, pizza2, pizza3, pizza4];
         console.log("Cardápio da pizza Senac:")
         cardapio.forEach((pizza) => {
             console.log(`${pizza.nome} valor: ${pizza.valor.toFixed(2)}`)
