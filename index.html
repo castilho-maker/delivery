@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Senac</title>
     <link rel="stylesheet" href="delivery.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -25,157 +27,48 @@
         <ul id="carrinho"></ul>
         <div class="total"></div>
     </div>
-    <!-- Tag dialog, é uma janela modal ela tem por padrão o display: none para exibir a janela na tela muda-se a propriedade 'open' -->
-    <dialog id="modal">
-        <form id="cadastraPizza">
-            <div>
-                <label for="nome">Nome</label>
-                <input type="text" name="nome" id="nome" required>
-            </div>
-            <div>
-                <label for="foto">Foto</label>
-                <input type="text" name="foto" id="foto" placeholder="imgs/nome.jpg" required>
-            </div>
-            <div>
-                <label for="valor">Valor</label>
-                <input type="number" step="0.01" id="valor" name="valor" required>
-            </div>
-            <div>
-                <label for="ingredientes">Ingredientes</label>
-                <input type="text" name="ingredientes" id="ingredientes">
-            </div>
-            <div>
-                <button type="submit">Salvar</button>
-            </div>
-        </form>
-    </dialog>
-    <script src="pizzas.js"></script>
-    <script>
-        const cardapioUl = document.getElementById('cardapio');//<ul id="cardapio"></ul>
-        const modal = document.getElementById('modal');
-        const formCadastro = document.getElementById('cadastraPizza');
-        const adicionarPizza = document.getElementById('adicionarPizza');
-        const carrinhoUl = document.getElementById('carrinho');//<ul id="carrinho"></ul>       
-        adicionarPizza.addEventListener('click', () => {
-            modal.open = true;
-        });
-        formCadastro.addEventListener('submit', (evento) => {
-            //para o evento padrão do formulario
-            evento.preventDefault();
-            let nome = document.getElementById('nome').value
-            let foto = document.getElementById('foto').value
-            let valor = parseFloat(document.getElementById('valor').value)
-            let ingredientes = document.getElementById('ingredientes').value
-            let novaPizza = {
-                foto: foto,
-                nome: nome,
-                ingredientes: [ingredientes],
-                valor: valor
-            };
-            cardapio.push(novaPizza);
-            carrinhoUl.innerHTML = "";
-            exibirCardapio();
-            modal.open = false;
-        });
+        
+        <!-- Tag dialog, é uma janela modal ela tem por padrão o display: none para exibir a janela na tela muda-se a propriedade 'open' -->
+        <dialog id="modal">
+            <div class="mascara">
+                <form id="cadastraPizza" class="modal">
+                    <div class="modal-header">
+                        <h2>Cadastrar Pizza</h2>
+                        <div class="modal-content">
+                            <button type="button" id="fecharModal" class="fechar">X</button>
+                        </div>
+                    </div><!-- fecha modal-header -->
+                    <div class="modal-body">
+                        <div>
+                            <label for="nome">Nome</label>
+                            <input type="text" name="nome" id="nome" required>
+                        </div>
+                        <div>
+                            <label for="foto">Foto</label>
+                            <input type="text" name="foto" id="foto" placeholder="imgs/nome.jpg" required>
+                        </div>
+                        <div>
+                            <label for="valor">Valor</label>
+                            <input type="number" step="0.01" id="valor" name="valor" required>
+                        </div>
+                        <div>
+                            <label for="ingredientes">Ingredientes</label>
+                            <input type="text" name="ingredientes" id="ingredientes">
+                        </div>
+                    </div><!-- fecha modal-body -->
+                    <div class="modal-footer">
+                        <button type="reset" id="cancelar" class="cancelar">Cancelar</button>
+                        <button type="submit" class="salvar">Salvar</button>
+                    </div>
+                </form>
+            </div><!-- fecha div mascara -->
+        </dialog>
 
-        let carrinho = [];
-        //zera a lista do cardápio
-        cardapioUl.innerHTML = "";
-        //repetição para exibir a lista de pizzas no cardapio (ul)
-        function exibirCardapio() {
-            cardapio.forEach((pizza) => {
-                //cria um elemento <li> para inserir cada pizza na UL
-                const li = document.createElement('li');
-                //atribui uma classe para a <li> criada
-                li.className = "pizza";
-                //cria um elemento <img> para adicionar a imagem da pizza
-                const img = document.createElement('img');
-                //atribui a foto da pizza para o 'src' da img
-                img.src = pizza.foto
-                //cria uma div para exibir os ingredientes da pizza
-                const ingredientesDiv = document.createElement('div');
-                ingredientesDiv.innerHTML = `(${pizza.ingredientes.join(' | ')})`;
-                //atribui uma classe para os ingredientes
-                ingredientesDiv.className = "ingredientes";
-                //cria um botão para adicionar a pizza ao carrinho
-                const button = document.createElement('button');
-                //texto para o botão comprar
-                button.textContent = "COMPRAR 🍕";
-                //montar card da pizza
-                li.appendChild(img);
-                li.append(`${pizza.nome} - R$ ${pizza.valor.toFixed(2)}`);
-                li.appendChild(ingredientesDiv);
-                li.appendChild(button);
-                //adiciona a <li> dentro da <ul>
-                cardapioUl.appendChild(li);
-                //seleciona o botão "Comprar" no <li> e escuta o evento 'click'
-                li.querySelector('button').addEventListener('click', () => {
-                    //quando o botão é clicado, adiciona a pizza em questão ao array
-                    carrinho.push(pizza);
-                    //aviso de pizza adicionda
-                    alert(`Pizza adicionada [${pizza.nome}] ao carrinho`);
-                    //atulizar o carrinho após adicionar pizza
-                    atualizarCarrinho();
-                });
-            });//fim repetição cardápio
-        }
-        //================= EVENTO ABRIR CARRINHO ===================
-        //Seleciona o botão no menu para abrir o carrinho
-        const btnAbrirCarrinho = document.getElementById('abrirCarrinho');
-        //seleciona a DIV "checkout" para manipular o display (block ou none)
-        const checkout = document.getElementById('checkout');
-        btnAbrirCarrinho.addEventListener('click', () => {
-            //altera o display da div para 'block'
-            checkout.style.display = 'block';
-        });
-        //================= EVENTO FECHAR CARRINHO ===================
-        const fecharCarrinho = document.getElementById('fecharCarrinho');
-        fecharCarrinho.addEventListener('click', () => {
-            //altera o display da div para 'none'
-            checkout.style.display = 'none';
-        });
-        carrinhoUl.innerHTML = "<h4>🥹 Seu carrinho está vazio 🍕</h4>";
-        //================= ATUALIZAR CARRINHO ===================
-        function atualizarCarrinho() {
-            //limpar carrinho
-            carrinhoUl.innerHTML = "";
-            //cria a variavelpara o total a pagar
-            let total = 0;
-            //---------- adicionar itens ao carrinho ----------
-            carrinho.forEach((pizza) => {
-                const liCarrinho = document.createElement('li');
-                //adiciona classe ao <li> do carrinho
-                liCarrinho.className = "item_carrinho";
-                //definir conteúdo do <li> do carrinho
-                liCarrinho.textContent = `${pizza.nome} - R$ ${pizza.valor.toFixed(2)}`;
-                carrinhoUl.appendChild(liCarrinho);
-                //cria botão para remover item do carrinho
-                const removerBtn = document.createElement('button');
-                removerBtn.textContent = "X";
-                //define uma classe para o botão remover
-                removerBtn.className = 'btn_remover';
-                total += pizza.valor;
-                liCarrinho.appendChild(removerBtn);
-                removerBtn.addEventListener('click', () => {
-                    let indiceClicado = carrinho.indexOf(pizza);
-                    removerCarrinho(indiceClicado);
-                    alert(`Item removido: ${pizza.nome}`);
-                });
-            });
-            //--------- Exibe o valor total a pagar --------
-            const divTotal = document.querySelector('.total');
-            divTotal.innerHTML = `TOTAL R$ ${total.toFixed(2)}`;
-        }//fecha função atualizar
-
-        function removerCarrinho(indice) {
-            //remove o indide clicado 
-            //função para array. splice(onde começa a remover, quantidade a remover)
-            carrinho.splice(indice, 1);
-            //atualiza o carrinho após a remoção
-            atualizarCarrinho();
-        }
-        exibirCardapio();
-    </script>
+        <script src="pizzas.js"></script>
+        <script src="carrinho.js"></script>
+        <script src="cardapio.js"></script>
+        <script src="app.js"></script>
+       
 </body>
 
 </html>

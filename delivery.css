@@ -20,6 +20,7 @@
     #cardapio li {
       display: flex;
       flex-direction: column;
+      align-items: center;/*Adicionado*/
       border: 1px solid #ddd;
       padding: 10px;
       border-radius: 8px;
@@ -28,11 +29,12 @@
       font-size: 1.2em;
       margin: 10px 0;
       width: 100%;
-      max-width: 300px;
+      max-width: 350px;/*Alterei. era 300px*/
+      overflow: hidden;/*Adicionado*/
     }
     #cardapio li img {
       width: 100%;
-      max-width: 300px;
+      max-width: 350px;
       height: auto;
       border-radius: 8px;
     }
@@ -44,13 +46,14 @@
       border-radius: 5px;
       cursor: pointer;
       margin-top: 10px;
+      width: 100%;/*Adicionado*/
     }
     #carrinho {
       list-style: none;
     }
     .checkout {
       position: relative;
-      display: none;
+      display: none;/*oculto*/
       position: fixed;
       right: 0;
       top: 0;
@@ -109,9 +112,8 @@
       text-decoration: none;
       color: #333;
     }
-
-  .navegacao ul button {
-    background: transparent;
-    font-size: 1.2rem;
-    border: none;
-  }
+    .navegacao ul button {
+      background: transparent;
+      font-size: 1.2rem;
+      border: none;
+    }
